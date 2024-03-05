@@ -1,1 +1,44 @@
-Generic single-database configuration.
+# URL Shortener Migration Environment
+
+Generic Single-database configuration. This migration environment is set up to support a React project for a URL shortener application. The root directory url-shortener/ contains this api/ and the directory frontend/ which holds a Vite-React-Javascript project with react-router-dom implementation.
+
+## Prerequisites
+
+- Python (version 3.12)
+- PostgreSQL (version 16)
+- Virtual Environment created and activated (env)
+- WITHIN ACTIVE ENVIRONMENT, install libraries frozen in /requirements.txt
+
+## Project Structure
+
+- api/alembic: home directory of the Alembic migration environment
+
+  - /versions: directory holds the individual version scripts.
+  - /env.py: python script file with configurations and instructions for managing database migrations. This runs when whenever the alembic migration tool is invoked
+  - /script.py.mako: Mako template file with script to control structure of each migration file generated within versions/.
+
+- api/config.py: Configuration file for database connection.
+- api/models.py: BaseModel definitions.
+- api/db_connect.py: File for setting up the database engine and sessionmaker.
+- api/main.py: the connection to FastAPI, established with CRUD Routes.
+
+### Database Configuration
+
+- PostgreSQL server is running and database 'url_shortener' set up.
+- Git ignored `.env` file contains credentials for DATABASE_URL
+- SQLAlchemy URL is read from the DATABASE_URL environment variable.
+- database URL is defined in config.py and called in db_connect.py
+
+### Test CRUD Routes
+
+1. run fast FastApi:
+
+- $ uvicorn main:app
+
+2. test with Swagger documentation (SwaggerUI) at ('http://localhost:8000/docs')
+
+### Running Migrations
+
+To run migrations using Alembic:
+
+- $ (env) alembic upgrade head

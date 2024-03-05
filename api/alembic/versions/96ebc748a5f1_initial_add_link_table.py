@@ -1,8 +1,8 @@
-"""create link  table migration
+"""initial, add link table
 
-Revision ID: 79176517c0e4
+Revision ID: 96ebc748a5f1
 Revises: 
-Create Date: 2024-03-01 11:49:43.952288
+Create Date: 2024-03-04 17:19:38.072317
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '79176517c0e4'
+revision: str = '96ebc748a5f1'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
