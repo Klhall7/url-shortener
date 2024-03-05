@@ -1,9 +1,9 @@
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
-from models import Base
+from models.base import Base
 from pydantic import BaseModel
 
-class Link (Base):
-    __tablename__="link"
+class Links (Base):
+    __tablename__="links"
     
     id = Column(Integer, primary_key=True)
     title = Column(String)

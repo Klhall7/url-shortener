@@ -10,7 +10,9 @@ from alembic import context
 config = context.config
 
 from config import settings
-from models import Base
+from models.base import Base
+from models.links import Links
+from models.users import Users
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
