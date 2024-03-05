@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy.orm import mapped_column
 from models.base import Base
 from pydantic import BaseModel
 
@@ -9,9 +10,8 @@ class Links (Base):
     title = Column(String)
     og_url = Column(String)
     short_url = Column(String)
-    user_id = Column(Integer)
+    user_id = mapped_column(ForeignKey("users.id"))
     private = Column(Boolean(), default=False)
-    #user_id = Column(Integer, ForeignKey('users.id'))
     
 class LinkSchema(BaseModel):
     title: str
