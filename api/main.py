@@ -38,7 +38,7 @@ def get_users():
 
 @app.post('/create/url')
 async def create_link(url_data: LinkSchema):
-    url= Links(title=url_data.title, og_url=url_data.og_url, short_url=url_data.short_url, user_id=url_data.user_id, private=url_data.private)
+    url =Links(**url_data.model_dump())
     session.add(url)
     session.commit()
     return {"url added": url.title}
