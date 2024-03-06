@@ -25,7 +25,8 @@ export async function action({ request }) {
 
 const UrlForm = () => {
     return (
-        <Form method="POST">
+        <Form method="POST" style={{ display:"flex", 
+        flexDirection: 'column', border: 'solid 2px white'}}> URL Submit 
             <label>Title: 
                 <input type="text" 
                 name="title" 
