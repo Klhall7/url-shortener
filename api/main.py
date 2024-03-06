@@ -1,13 +1,24 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, status
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from db_connect import session, engine
 from models.base import Base
+from config import settings
+from services import create_user, get_user
 from models.links import Links, LinkSchema
-from models.users import Users
+from models.users import Users, UserSchema, UserAccountSchema
 
+def create_tables():
+    Base.metadata.create_all(bind=engine)
+    
+def start_application():
+    app=FastAPI(title=settings.PROJECT_NAME, 
+                version=settings.PROJECT_VERSION)
+    
+    create_tables()
+    return app
 
-app = FastAPI ()
+app = start_application()
 
 origins = [
     "http://localhost/*",
@@ -36,12 +47,36 @@ def get_users():
     user= session.query(Users)
     return user.all()
 
-@app.post('/create/url')
+@app.post("/register", response_model=UserSchema)
+def register_user(payload: UserAccountSchema):
+    payload.hashed_password = Users.hash_password(payload.hashed_password)
+    return create_user(user=payload)
+
+@app.post("/login")
+async def login(payload: UserAccountSchema):
+    try:
+        user: Users = get_user(email=payload.email)
+    except:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid User Credentials"
+        )
+        
+    is_validated: bool= user.validate_password(payload.hashed_password)
+    
+    if not is_validated: 
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail= "Invalid User Credentials"
+        )
+        
+    return {"detail": "Successful Login"}
+
+@app.post("/url/create")
 async def create_link(url_data: LinkSchema):
     url =Links(**url_data.model_dump())
     session.add(url)
     session.commit()
     return {"url added": url.title}
 
-# def create_tables():
-#     Base.metadata.create_all(bind=engine)
+
