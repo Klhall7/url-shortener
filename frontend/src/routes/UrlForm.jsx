@@ -1,4 +1,4 @@
-import { Form, redirect } from 'react-router-dom';
+import { Form } from 'react-router-dom';
 
 export async function action({ request }) {
     const urlData = await request.formData();
@@ -9,7 +9,7 @@ export async function action({ request }) {
     const private_toggle = urlData.get('private')
     const data = { title, og_url, short_url, user_id: Number(user_id), private:String(private_toggle)};
 
-    const url = "http://localhost:8000/create/url";
+    const url = "http://localhost:8000/url/create";
     const addResponse = await fetch(url, {
         method: "POST",
         headers: {
@@ -20,7 +20,7 @@ export async function action({ request }) {
 
     console.log("add url response", addResponse)
 
-    return redirect('/urls')
+    return null;
 }
 
 const UrlForm = () => {

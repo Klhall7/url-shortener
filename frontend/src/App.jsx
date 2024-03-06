@@ -4,6 +4,7 @@ import Layout from "./pages/Layout";
 import Home from "./routes/Home";
 import Links, { loader as urlListLoader } from "./routes/Links";
 import UrlForm, { action as urlAddRequest } from "./routes/UrlForm";
+import DisplayUsers, { loader as userListLoader } from "./routes/DisplayUsers";
 
 const router = createBrowserRouter([
   {
@@ -15,14 +16,19 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/urls",
-        element: <Links />,
+        path:"/urls",
+        element: (
+          <>
+            <UrlForm /> 
+            <Links /> 
+          </> ),
+        action: urlAddRequest,
         loader: urlListLoader,
       },
       {
-        path:"/add_url",
-        element: <UrlForm />,
-        action: urlAddRequest,
+        path:"/display_users",
+        element: <DisplayUsers/>,
+        loader: userListLoader,
       },
     ],
   },
