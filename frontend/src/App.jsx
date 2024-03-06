@@ -4,7 +4,11 @@ import Layout from "./pages/Layout";
 import Home from "./routes/Home";
 import Links, { loader as urlListLoader } from "./routes/Links";
 import UrlForm, { action as urlAddRequest } from "./routes/UrlForm";
+import Register, { action as registerUserRequest } from "./routes/Register";
+import Login, { action as loginRequest } from "./routes/Login";
+
 import DisplayUsers, { loader as userListLoader } from "./routes/DisplayUsers";
+{/* Display for testing purposes only */}
 
 const router = createBrowserRouter([
   {
@@ -26,9 +30,26 @@ const router = createBrowserRouter([
         loader: urlListLoader,
       },
       {
-        path:"/display_users",
-        element: <DisplayUsers/>,
+        path:"/register",
+        element: (
+          <>
+          <Register/>
+          <DisplayUsers/> {/* for testing purposes only */}
+          </>
+        ),
         loader: userListLoader,
+        action: registerUserRequest,
+      },
+      {
+        path:"/login",
+        element: (
+          <>
+          <Login/>
+          <DisplayUsers/> {/* for testing purposes only */}
+          </>
+        ),
+        loader: userListLoader,
+        action: loginRequest,
       },
     ],
   },
