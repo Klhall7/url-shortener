@@ -5,8 +5,10 @@ from db_connect import session, engine
 from models.base import Base
 from config import settings
 from services import create_user, get_user
+from datetime import date, timedelta
 from models.links import Links, LinkSchema
 from models.users import Users, UserSchema, UserAccountSchema
+from models.tokens import Token, TokenData, create_access_token
 
 def create_tables():
     Base.metadata.create_all(bind=engine)
@@ -69,8 +71,11 @@ async def login(payload: UserAccountSchema):
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail= "Invalid User Credentials"
         )
-        
-    return {"detail": "Successful Login"}
+    access_token_expires = timedelta(minutes=120)
+    access_token = create_access_token(
+        data={"email": user.email}, expires_delta=access_token_expires
+    )   
+    return Token(access_token=access_token, token_type="bearer")
 
 @app.post("/url/create")
 async def create_link(url_data: LinkSchema):
