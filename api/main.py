@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, status, Query
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from db_connect import session, engine
@@ -9,6 +9,7 @@ from datetime import date, timedelta
 from models.links import Links, LinkSchema
 from models.users import Users, UserSchema, UserAccountSchema
 from models.tokens import Token, TokenData, create_access_token
+from starlette.responses import RedirectResponse
 
 def create_tables():
     Base.metadata.create_all(bind=engine)
@@ -48,6 +49,11 @@ def get_links():
 def get_users():
     user= session.query(Users)
     return user.all()
+
+@app.get("/sendit")
+async def redirect_to_external_url(url: str = Query(...)):
+    link = session.query(Links).filter(Links.short_url == url).first()
+    return RedirectResponse(link.og_url)
 
 @app.post("/register", response_model=UserSchema)
 def register_user(payload: UserAccountSchema):
