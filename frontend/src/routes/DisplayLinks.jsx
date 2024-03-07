@@ -7,17 +7,17 @@ export async function loader() {
     return { data };
 }
 
-const Links = () => {
+const DisplayLinks = () => {
     const { data } = useLoaderData();
 
     return (
         <>
-        <h2>URL List</h2>
+        <h2>My URLs</h2>
         <ul>
                 {data.map((url, index) => {
                     return (
                         <li key={index}>
-                            {url.title} - {url.short_url}
+                            {url.title}<br/>{url.short_url}
                         </li>
                     );
                 })}
@@ -27,4 +27,4 @@ const Links = () => {
 };
 
 
-export default Links
+export default DisplayLinks
