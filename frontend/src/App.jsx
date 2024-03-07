@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./pages/ErrorPage";
 import Layout from "./pages/Layout";
 import Home from "./routes/Home";
-import Links, { loader as urlListLoader } from "./routes/Links";
+import DisplayLinks, { loader as urlListLoader } from "./routes/DisplayLinks";
 import UrlForm, { action as urlAddRequest } from "./routes/UrlForm";
 import Register, { action as registerUserRequest } from "./routes/Register";
 import Login, { action as loginRequest } from "./routes/Login";
@@ -20,11 +20,11 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path:"/urls",
+        path:"/url",
         element: (
           <>
             <UrlForm /> 
-            <Links /> 
+            <DisplayLinks /> 
           </> ),
         action: urlAddRequest,
         loader: urlListLoader,
