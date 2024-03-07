@@ -7,7 +7,7 @@ export const action = async ({ request }) => {
     const loginData = { email, password};
 
     try {
-        const url = `${import.meta.env.VITE_SOURCE_URL}`;
+        const url = `${import.meta.env.VITE_SOURCE_URL}/login`;
         const loginResponse = await fetch(url, {
                 method: "POST",
                 headers: {
